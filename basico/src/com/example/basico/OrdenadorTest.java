@@ -5,8 +5,10 @@ public class OrdenadorTest {
 		Ordenador o = new Ordenador();
 		o.ram = -900;
 		// o.capacidadDisco = 20; // Error!
+		o.setCapacidadDisco(-200);
 		o.velocidadCpu = 20;
 		System.out.println("ram = " + o.ram + 
-				", velocidad = " + o.velocidadCpu);
+				", velocidad = " + o.velocidadCpu +
+				", capcidad = " + o.getCapacidadDisco());
 	}
 }
