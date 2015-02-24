@@ -16,6 +16,9 @@ public class PolimorfismoClase {
 		Gerente g1 = (Gerente)e1;
 		//Director d = (Director)new Empleado(); // => ClassCastException!
 
+		System.out.println("gerente = " + g1);
+		
+		
 		if (e1 instanceof Empleado)
 			System.out.println("Soy un empleado");
 		if (e1 instanceof Gerente)
@@ -26,9 +29,16 @@ public class PolimorfismoClase {
 }
 
 class Empleado {
-	public double salario;
 	public String nombre;
+	public double salario;
 	public Date fechaNacimiento;
+	
+	public Empleado(String nombre, double salario, Date fechaNacimiento) {
+		super();
+		this.nombre = nombre;
+		this.salario = salario;
+		this.fechaNacimiento = fechaNacimiento;
+	}
 	
 	public String getDetails() {
 		return "nombre = " + this.nombre + 
@@ -39,11 +49,30 @@ class Empleado {
 
 class Gerente extends Empleado {
 	public String departamento;
+
+	public Gerente() {
+		super(null, 0, null);
+	}
 	
+	public Gerente(String nombre, double salario, Date fechaNacimiento, 
+			String departamento) {
+		super(nombre, salario, fechaNacimiento);
+		this.departamento = departamento;
+	}
+
 	public String getDetails() {
 		return super.getDetails() +
 				", departamento = " + departamento;
 	}
+
+	@Override
+	public String toString() {
+		return "Gerente [nombre = " + nombre +
+				", salario = " + salario + 
+				", departamento=" + departamento + "]";
+	}
+	
+	
 }
 
 class Director extends Gerente {
