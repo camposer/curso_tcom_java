@@ -5,6 +5,8 @@ public class Director extends Gerente {
 
 	@Override
 	public String toString() {
-		return "Director [tieneCoche=" + tieneCoche + "]";
+		return "Director [tieneCoche=" + tieneCoche + ", departamento="
+				+ departamento + ", nombre=" + nombre + ", salario=" + salario
+				+ ", fechaNacimiento=" + fechaNacimiento + "]";
 	}
 }
