@@ -20,29 +20,15 @@ public class Sockets {
 }
 
 class Servidor implements Runnable {
+	@SuppressWarnings("resource")
 	private void iniciar() throws IOException {
 		System.out.println("Servidor iniciado...");
 
 		ServerSocket server = new ServerSocket(Sockets.PUERTO);
-		Socket socket = server.accept(); // llamada bloqueante
-		
-		System.out.println("Servidor conectado");
-		
-		InputStream entrada = socket.getInputStream();
-		Scanner scanner = new Scanner(entrada);
-		String nombre = scanner.nextLine(); // => Rodolfo
-		System.out.println("Servidor. Recibido, nombre = " + nombre);
-		
-		OutputStream salida = socket.getOutputStream();
-		PrintWriter pw = new PrintWriter(salida);
-		String mensaje = "Hola " + nombre;
-		pw.println(mensaje);
-		pw.flush();
-		
-		System.out.println("Servidor. Enviado, mensaje = " + mensaje);
-		
-		socket.close();
-		server.close();
+		while (true) { // Servidor concurrente
+			Socket socket = server.accept(); // llamada bloqueante
+			new Sirviente(socket).start(); // Llamada no-bloqueante
+		}
 	}
 
 	@Override
@@ -53,6 +39,38 @@ class Servidor implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	
+	public static class Sirviente extends Thread {
+		private Socket socket;
+		
+		public Sirviente(Socket socket) {
+			this.socket = socket;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				System.out.println("Servidor conectado");
+				
+				InputStream entrada = socket.getInputStream();
+				Scanner scanner = new Scanner(entrada);
+				String nombre = scanner.nextLine(); // => Rodolfo
+				System.out.println("Servidor. Recibido, nombre = " + nombre);
+				
+				OutputStream salida = socket.getOutputStream();
+				PrintWriter pw = new PrintWriter(salida);
+				String mensaje = "Hola " + nombre;
+				pw.println(mensaje);
+				pw.flush();
+				
+				System.out.println("Servidor. Enviado, mensaje = " + mensaje);
+				
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
 
 class Cliente implements Runnable {
@@ -61,7 +79,7 @@ class Cliente implements Runnable {
 		Socket socket = new Socket(Sockets.IP, Sockets.PUERTO);
 		System.out.println("Cliente conectado");
 		
-		String nombre = "Rodolfo";
+		String nombre = "Pedro";
 		
 		System.out.println("Cliente. Enviando, nombre = " + nombre);
 		OutputStream salida = socket.getOutputStream();
