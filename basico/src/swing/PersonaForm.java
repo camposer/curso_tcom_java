@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -51,6 +53,20 @@ public class PersonaForm extends JFrame {
 	}
 	
 	public void iniciar() {
+		JMenuBar menu = new JMenuBar();
+		JMenuItem ayuda = new JMenuItem("Ayuda");
+		JMenuItem cerrar = new JMenuItem("Cerrar");
+		cerrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		
+		ayuda.add(cerrar);
+		menu.add(ayuda);
+		setJMenuBar(menu);
+
 		panel.setLayout(new GridLayout(3, 2));
 		
 		panel.add(nombreLabel);
