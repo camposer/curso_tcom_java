@@ -21,11 +21,11 @@ public class Cliente {
 	}
 	
 	public double sumar(double a, double b) {
-		return calcular(a, b, "sumar");
+		return calcular(a, b, Calculadora.SUMAR);
 	}
 	
 	public double multiplicar(double a, double b) {
-		return calcular(a, b, "multiplicar");
+		return calcular(a, b, Calculadora.MULTIPLICAR);
 	}
 
 	@SuppressWarnings("resource")

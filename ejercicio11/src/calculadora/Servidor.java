@@ -46,13 +46,13 @@ public class Servidor {
 				
 				// Cálculo
 				Double resultado = null;
-				if (operacion.equals("sumar"))
+				if (operacion.equals(Calculadora.SUMAR))
 					resultado = calc.sumar(op1, op2);
-				else if (operacion.equals("restar"))
+				else if (operacion.equals(Calculadora.RESTAR))
 					resultado = calc.restar(op1, op2);
-				else if (operacion.equals("multiplicar"))
+				else if (operacion.equals(Calculadora.MULTIPLICAR))
 					resultado = calc.multiplicar(op1, op2);
-				else if (operacion.equals("dividir"))
+				else if (operacion.equals(Calculadora.DIVIDIR))
 					resultado = calc.dividir(op1, op2);
 					
 				// Escribiendo la respuesta
@@ -75,3 +75,4 @@ public class Servidor {
 		finalizado = true;
 	}
 }
+
