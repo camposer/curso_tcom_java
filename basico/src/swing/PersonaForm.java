@@ -2,6 +2,8 @@ package swing;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -36,6 +38,16 @@ public class PersonaForm extends JFrame {
 		alturaText = new JTextField();
 		
 		aceptarBtn = new JButton("Aceptar");
+		aceptarBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String nombre = nombreText.getText();
+				float altura = Float.parseFloat(alturaText.getText());
+				int edad = Integer.parseInt(edadText.getText());
+				
+				System.out.println(new Persona(nombre, altura, edad));
+			}
+		});
 	}
 	
 	public void iniciar() {
