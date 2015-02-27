@@ -8,7 +8,12 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -50,6 +55,35 @@ public class ChatClient extends JFrame {
 		add(botonesPanel, BorderLayout.EAST);
 		
 		addWindowListener(new CloseHandler());
+		
+		JMenuBar menuBar = new JMenuBar();
+		JMenu archivoMenu = new JMenu("Archivo");
+		JMenuItem acercaMenu = new JMenuItem("Acerca");
+		acercaMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JDialog dialogo = new JDialog();
+				dialogo.setTitle("Acerca de...");
+				dialogo.add(new JLabel("Bienvenido!!"));
+				dialogo.setModal(true); // Bloquea la interfaz
+				dialogo.setSize(100, 100);
+				dialogo.setVisible(true);
+			}
+		});
+		
+		JMenuItem salirMenu = new JMenuItem("Salir");
+		salirMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cerrar();
+			}
+		});
+		
+		archivoMenu.add(acercaMenu);
+		menuBar.add(archivoMenu);
+		menuBar.add(salirMenu);
+		
+		setJMenuBar(menuBar);
 		
 		setSize(1000, 500);
 		setVisible(true);
