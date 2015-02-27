@@ -1,10 +1,12 @@
-package calculadora;
+package primero;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
+
+import calculadora.Calculadora;
 
 public class Cliente {
 	public static final String IP = "127.0.0.1";

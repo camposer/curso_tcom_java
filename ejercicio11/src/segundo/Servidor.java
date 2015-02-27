@@ -1,10 +1,12 @@
-package calculadora;
+package segundo;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
+
+import calculadora.Calculadora;
 
 public class Servidor {
 	public static final int PUERTO = 1234;
@@ -34,32 +36,30 @@ public class Servidor {
 			this.calc = new Calculadora();
 		}
 		
-		@SuppressWarnings("resource")
 		@Override
 		public void run() {
 			try {
 				// Leyendo datos del cliente
-				Scanner scanner = new Scanner(socket.getInputStream());
-				String operacion = scanner.nextLine();
-				Double op1 = Double.parseDouble(scanner.nextLine());
-				Double op2 = Double.parseDouble(scanner.nextLine());
-				
+				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+				CalculadoraPeticion peticion = (CalculadoraPeticion)ois.readObject();
+
 				// Cálculo
 				Double resultado = null;
-				if (operacion.equals(Calculadora.SUMAR))
-					resultado = calc.sumar(op1, op2);
-				else if (operacion.equals(Calculadora.RESTAR))
-					resultado = calc.restar(op1, op2);
-				else if (operacion.equals(Calculadora.MULTIPLICAR))
-					resultado = calc.multiplicar(op1, op2);
-				else if (operacion.equals(Calculadora.DIVIDIR))
-					resultado = calc.dividir(op1, op2);
+				if (peticion instanceof Suma)
+					resultado = calc.sumar(peticion.getOp1(), peticion.getOp2());
+				else if (peticion instanceof Resta)
+					resultado = calc.restar(peticion.getOp1(), peticion.getOp2());
+				else if (peticion instanceof Multiplicacion)
+					resultado = calc.multiplicar(peticion.getOp1(), peticion.getOp2());
+				else if (peticion instanceof Division)
+					resultado = calc.dividir(peticion.getOp1(), peticion.getOp2());
 					
 				// Escribiendo la respuesta
-				PrintWriter pw = new PrintWriter(socket.getOutputStream());
-				pw.println(resultado);
-				pw.flush(); // Escribe en el socket
-			} catch (IOException e) {
+				CalculadoraRespuesta respuesta = 
+						new CalculadoraRespuesta(resultado);
+				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+				oos.writeObject(respuesta);
+			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
 				try {
